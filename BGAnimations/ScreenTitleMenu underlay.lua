@@ -140,16 +140,15 @@ t[#t+1] = Def.ActorFrame {
                 self:settext("ThemeName")
             end
         },
-		LoadFont("Menu Normal") .. {
+        LoadFont("Menu Normal") .. {
             Name = "VersionNumber",
             InitCommand = function(self)
                 self:halign(0):valign(0)
                 self:xy(versionNumberLeftGap, versionNumberUpperGap)
-				self:zoom(versionTextSize)
-				self:settext("V "..GAMESTATE:GetEtternaVersion())
+                self:zoom(versionTextSize)
+                self:settext("V "..GAMESTATE:GetEtternaVersion())
             end
         }
-		
     }
 }
 
