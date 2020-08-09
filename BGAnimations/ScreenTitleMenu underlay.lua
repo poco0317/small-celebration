@@ -15,8 +15,8 @@ local imageheight = 200 -- unused
 local imagewidth = 200 -- unused
 local adjustedsize = 200 / 1080 * SCREEN_HEIGHT
 
-local verticalcount = math.ceil(SCREEN_HEIGHT / adjustedsize)
-local horizontalcount = math.ceil(SCREEN_WIDTH / adjustedsize)
+local verticalcount = math.ceil(SCREEN_HEIGHT / adjustedsize) * 2
+local horizontalcount = math.ceil(SCREEN_WIDTH / adjustedsize) * 2
 
 -- generate the bg checkerboard as a frame
 local function bgCheckerBoard()
@@ -162,6 +162,15 @@ local selectorWidth = 574 / 1920 * SCREEN_WIDTH
 local choiceTable = strsplit(THEME:GetMetric("ScreenTitleMenu", "ChoiceNames"), ",")
 
 t[#t+1] = Def.ActorFrame {
+    Name= "CheckerMover",
+    CheckerCommand = function(self)
+        local checkerboard = self:GetParent():GetChild("BGCheckerboardFrame")
+        checkerboard:xy(0,0)
+        checkerboard:linear(7)
+        checkerboard:xy(-adjustedsize,-adjustedsize)
+        self:sleep(7)
+        self:queuecommand("Checker")
+    end,
     Name = "SelectionFrame",
     BeginCommand = function(self)
         -- i love hacks.
@@ -176,7 +185,8 @@ t[#t+1] = Def.ActorFrame {
         -- we set it to start off screen using the metrics
         scr:smooth(animationSeconds)
         scr:x(scrollerX)
-        scr:y(scrollerY)        
+        scr:y(scrollerY)
+        self:queuecommand("Checker")
     end,
     MenuSelectionChangedMessageCommand = function(self)
         local i = self:GetFakeParent():GetDestinationItem() + 1
